@@ -13,6 +13,7 @@ to instead install Private Packagist Self-Hosted without an existing Kubernetes 
 1. An SSL certificate valid for both chosen domains
 1. An SMTP server or a GMail account for Private Packagist Self-Hosted to send email
 1. If your firewall restricts external connections then the following domains must be accessible from the server:
+  * packagist.org
   * index.docker.io
   * cdn.auth0.com
   * *.docker.io
@@ -22,7 +23,6 @@ to instead install Private Packagist Self-Hosted without an existing Kubernetes 
   * registry.replicated.com
   * Please also consult the list in the [Replicated documentation](https://docs.replicated.com/enterprise/installing-general-requirements#firewall-openings-for-online-installations). 
   * To mirror Composer packages in Private Packagist, the following domains must also be accessible:
-    - packagist.org (required to fetch package metadata)
     - *.packagist.org (required to fetch package metadata)
     - github.com (required to download ZIP files for mirrored packages)
     - api.github.com (required to download ZIP files for mirrored packages)

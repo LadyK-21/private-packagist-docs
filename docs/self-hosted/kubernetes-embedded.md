@@ -24,6 +24,7 @@ in an existing Kubernetes cluster using Helm follow [this guide](./kubernetes-he
     * Ports 80, 443, and 8800 must be accessible, for a full list of ports
     * Must be reachable at the chosen domain names from your local machine
 1. If your firewall restricts external connections the following domains must be accessible from the server:
+  * packagist.org
   * index.docker.io
   * cdn.auth0.com
   * *.docker.io
@@ -38,7 +39,6 @@ in an existing Kubernetes cluster using Helm follow [this guide](./kubernetes-he
   * amazonaws.com (required to install the kots CLI)
   * Please also consult the list in the [Replicated documentation](https://docs.replicated.com/enterprise/installing-general-requirements#firewall-openings-for-online-installations).
   * To mirror Composer packages in Private Packagist, the following domains must also be accessible:
-     - packagist.org (required to fetch package metadata)
      - *.packagist.org (required to fetch package metadata)
      - github.com (required to download ZIP files for mirrored packages)
      - api.github.com (required to download ZIP files for mirrored packages)
