@@ -77,6 +77,30 @@ proxy_ssl_server_name on;
 If you are using different hostnames on the upstream and on the reverse-proxy, set the value in the
 `proxy_ssl_name` directive to the corresponding hostname of the upstream server.
 
+#### SSL errors when downloading packages from external sites (curl error 60)
+
+If package update jobs, synchronizations, or dist downloads fail with an error like
+```text
+curl error 60 while downloading https://...: SSL peer certificate or SSH remote key was not OK
+```
+the Private Packagist containers do not trust the certificate they are presented with. This typically happens
+when an SSL-inspecting proxy or firewall on your network re-signs outbound connections with your corporate CA,
+or when packages are hosted on internal servers using certificates from your own CA.
+
+You can verify what certificate the server actually sees by running the following on the Private Packagist host
+(replace the hostname with the one from the error message):
+```bash
+echo | openssl s_client -connect repo.example.com:443 -servername repo.example.com 2>/dev/null | openssl x509 -noout -issuer
+```
+
+If the issuer is your corporate/proxy CA instead of a public certificate authority, add that CA's root certificate
+or the full CA chain (root and intermediate certificates) in the KOTS admin console (port 8800) under
+_Config > TLS / SSL > Certificates_. Paste the PEM-formatted certificates including the BEGIN/END lines;
+multiple certificates can be pasted one after another in any order, as each certificate is installed into the
+trust store individually. Make sure to add CA certificates, not the per-host certificate issued by the proxy.
+The change takes effect after deploying the new configuration, which restarts the application containers and
+installs the certificates into their trust store.
+
 #### Issues after changing the Private Packagist Self-Hosted domain name
 
 If you've changed the domain name used to access your Private Packagist Self-Hosted Kubernetes installation, you'll need to clear the Composer endpoint Redis cache.
