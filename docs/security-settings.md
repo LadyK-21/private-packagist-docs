@@ -130,7 +130,7 @@ The _Composer client version restriction_ setting controls which Composer client
 - **Composer 2.2.\* (LTS) and 2.10.\* (latest)**: only the long-term-support and latest release lines are accepted.
 - **Composer 2.10.\* (latest only)**: only the latest release line is accepted.
 
-A future update will make the versions for the _Composer client version restriction_ dynamic, automatically tracking the current LTS and latest Composer release lines and filtering out any version with known security vulnerabilities.
+The allowed release lines are tracked automatically. Private Packagist follows the current LTS and latest Composer release lines as published on Packagist.org, so the versions accepted by the latest and LTS options update as new Composer releases come out; you do not need to change the setting. When a line stops being the LTS or latest line, it stays accepted for a short grace period, so clients on the previous line are not blocked immediately.
 
 The restriction currently matches on the major and minor version only and ignores the patch version, so any patch release within an allowed line (for example `2.10.0` or `2.10.3`) is accepted. This is the first iteration of the setting, and we plan to make it more granular and configurable over time.
 
