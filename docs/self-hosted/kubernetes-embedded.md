@@ -43,6 +43,7 @@ in an existing Kubernetes cluster using Helm follow [this guide](./kubernetes-he
      - github.com (required to download ZIP files for mirrored packages)
      - api.github.com (required to download ZIP files for mirrored packages)
      - Any other mirrored third-party repository you use like drupal.org, asset-packagist.org, or repo.magento.com
+  * If these connections have to go through a forward proxy, see [Installing behind an HTTP proxy](#installing-behind-an-http-proxy).
 
 
 <!-- See https://docs.replicated.com/enterprise/installing-general-requirements and https://kurl.sh/docs/install-with-kurl/system-requirements -->
@@ -59,6 +60,35 @@ To log in to the admin console, you will need the password shown at the end of t
 regenerate the admin console password via `sudo kubectl kots reset-password privatepackagistkots`.
 
 After your Replicated Kubernetes cluster is up and running you can follow the rest of the Packagist guide.
+
+### Installing behind an HTTP proxy
+
+If your server reaches the internet through a forward proxy, the install script needs `HTTP_PROXY`, `HTTPS_PROXY`, and
+`NO_PROXY` set in its own environment. Set them inside the `sudo` shell, as `sudo` removes them from the environment:
+
+```bash
+curl -fsSL -x http://proxy.example.com:3128 https://kurl.sh/privatepackagistkots -o install.sh
+
+sudo bash -c '
+export HTTP_PROXY=http://proxy.example.com:3128
+export HTTPS_PROXY=$HTTP_PROXY
+export NO_PROXY="localhost,127.0.0.1,10.0.0.0/8"
+bash install.sh
+'
+```
+
+The install script does not pick up the proxy configuration from an existing installation. Set the variables again
+every time you run the install script, for example to update the cluster or to add another node.
+
+Private Packagist itself uses the same proxy to access package information, so there is no separate proxy setting in
+the application. Domains that Private Packagist should reach without the proxy can be added under
+_Admin Panel > Global Configuration_.
+
+To check which proxy the application received, an empty value means it uses none:
+
+```bash
+kubectl get configmap ui-parameters -o jsonpath='{.data.parameters\.yaml}' | grep proxy_server
+```
 
 ### Replicated Configuration
 #### Replicated Setup

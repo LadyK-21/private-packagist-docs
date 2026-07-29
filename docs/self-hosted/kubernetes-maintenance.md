@@ -30,7 +30,21 @@ Please note that running the command will take a while as it will also update Ku
 Private Packagist and the Replicated Management Console will become temporarily unavailable.
 
 ```bash
-curl -sSL https://k8s.kurl.sh/privatepackagistkots | bash -s
+curl -sSL https://k8s.kurl.sh/privatepackagistkots | sudo bash -s
+```
+
+If your server reaches the internet through a forward proxy, this command needs the proxy configuration in its
+environment. The script does not pick up the proxy configuration from the existing installation, so it has to be provided again for every update. Set them before invoking the script:
+
+```bash
+curl -fsSL -x http://proxy.example.com:3128 https://k8s.kurl.sh/privatepackagistkots -o update.sh
+
+sudo bash -c '
+export HTTP_PROXY=http://proxy.example.com:3128
+export HTTPS_PROXY=$HTTP_PROXY
+export NO_PROXY="localhost,127.0.0.1,10.0.0.0/8"
+bash update.sh
+'
 ```
 
 ### Update or replace the SSL certificate
@@ -45,7 +59,7 @@ for detailed instructions.
 ### Updates
 
 If you installed Private Packagist Self-Hosted with Helm into your existing cluster, you can update the application with the command 
-below. Make sure to compare your existing `values.yaml` file to the [current one](http://packagist.com.lo/docs/self-hosted/kubernetes-helm#annotated-configuration) first.
+below. Make sure to compare your existing `values.yaml` file to the [current one](kubernetes-helm#annotated-configuration) first.
 
 ```bash
 helm upgrade -f values.yaml private-packagist oci://registry.replicated.com/privatepackagistkots/private-packagist --version VERSION
