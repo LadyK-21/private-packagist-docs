@@ -36,7 +36,7 @@ Notification channels allow you to receive notifications via other means than em
 - **Microsoft Teams Webhook (Workflow)**: Sends notifications to your configured Microsoft Teams channel, using Power Automate Workflows.
 - **Webhook**: Sends an HTTP POST request to a defined URL optionally signed with a user supplied secret.
 
-Notification channels can be added on your organization’s settings page under _Notification Channels -> Add Notification Channel_.
+Notification channels can be added on your organization’s settings page under _Notification channels > Add Notification Channel_.
 
 ### Receiving Webhook Notifications
 

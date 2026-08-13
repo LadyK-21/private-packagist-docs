@@ -5,7 +5,7 @@ You can use read-only tokens to grant automated systems like continuous integrat
 
 ## Adding a read-only token to your organization
 
-You can add read-only tokens on your organization's settings page under _Authentication Tokens_. Make sure to select _Read-only access to packages_ on the access dropdown.
+You can add read-only tokens on your organization's settings page under _Authentication tokens_. Make sure to select _Read-only access to packages_ on the access dropdown.
 
 Once the token is created, you'll need to add `COMPOSER_AUTH` as an environment variable in your CI/CD.
 ```bash

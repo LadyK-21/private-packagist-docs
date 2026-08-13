@@ -30,7 +30,7 @@ $organization = 'acme-company';
 $package = 'acme/package'; 
 
 // NOTE: You must use an authentication token for the composer API, not the Private Packagist API credentials.
-// You can create a token in your Organization settings > Authentication Tokens
+// You can create a token in your Organization settings > Authentication tokens
 $token = 'packagist_ort_..........'; 
 
 // The p2/$vendor/$package.json endpoint contains only tagged releases. If you want to fetch information about branches (i.e. dev versions) 
