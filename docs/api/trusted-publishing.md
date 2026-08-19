@@ -12,6 +12,7 @@ Organizations on Private Packagist can configure a trusted publisher to trust a 
 The workflow sends an OIDC token to Private Packagist, where the token is matched against configured trusted publishers.
 If there is a match, Private Packagist will issue a short-lived API credential with limited scope. 
 The issued API credential is valid for 15 minutes and can only access endpoints required to publish the artifact.
+Each OIDC token can be exchanged for one API credential only. Request a new OIDC token for every package you publish.
 
 ## Supported CI/CD providers
 
