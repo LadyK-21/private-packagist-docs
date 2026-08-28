@@ -161,6 +161,8 @@ The _Composer plugin policy_ setting decides which packages may act as Composer 
 - **Allow all**: all plugin packages are served normally.
 - **Limit to list below**: only allowlisted packages are served as plugins.
 
+Organizations default to _Allow all_. We recommend _Limit to list below_.
+
 The allowlist takes one package name per line and supports wildcards, e.g. `symfony/*`.
 
 When limited, Private Packagist omits versions with the type `composer-plugin` from the metadata of any package that is not allowlisted. Composer never sees those versions and cannot install them. This way you are protected even if `allow-plugins` is misconfigured in a project's composer.json, or a previously trusted dependency suddenly turns itself into a plugin.
