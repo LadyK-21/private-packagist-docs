@@ -19,18 +19,56 @@ kubectl delete pods --field-selector status.phase=Failed -n kurl
 
 #### Generating a support bundle
 
+A support bundle collects cluster information and the logs of all Private Packagist pods.
+Please always notify us if you send us a support bundle!
+
+Container logs are rotated by the kubelet, 10 MiB per container by default, and rotated files
+are no longer served through the Kubernetes API on most container runtimes. A bundle can
+therefore only contain what has not been rotated away yet. Generate the bundle as soon as you
+notice a problem. If you need to keep more history, raise `containerLogMaxSize` in your kubelet
+configuration or forward the container logs to your own log aggregation system.
+
+##### kURL installations
+
 You can generate a support bundle from the Replicated management console on port
 8800 by navigating to the _Troubleshoot_ tab, clicking _Generate a support bundle_,
 and selecting _Analyze_.
 Once the analysis is done, either download the bundle and manually send it to us
-or click on the send icon which will send us the bundle. Please always notify us
-if you send us a support bundle!
+or click on the send icon which will send us the bundle.
 
-In cases where the Replicated management console isn't accessible you can also generate a [host support bundle](https://docs.replicated.com/vendor/support-host-support-bundles)
-using the following command and send it to us:
+##### Helm chart installations
+
+The Helm chart ships the support bundle specification as a secret in the release namespace.
+Install the [support-bundle plugin](https://troubleshoot.sh/docs/support-bundle/collecting/)
+once with [krew](https://krew.sigs.k8s.io/):
+
+```bash
+kubectl krew install support-bundle
+```
+
+Then generate the bundle, replacing `NAMESPACE` with the namespace Private Packagist is
+installed in, and send us the resulting archive:
+
+```bash
+kubectl support-bundle -n NAMESPACE --load-cluster-specs
+```
+
+The `--load-cluster-specs` flag is what makes the command pick up our specification from the
+cluster, so no URL or local file is needed.
+
+##### Host support bundle
+
+If the Replicated management console of a kURL installation isn't accessible, you
+can also generate a [host support bundle](https://docs.replicated.com/vendor/support-host-support-bundles):
+
 ```bash
 kubectl support-bundle https://raw.githubusercontent.com/replicatedhq/troubleshoot-specs/main/host/default.yaml
 ```
+
+Run this command on the cluster node itself, not from a workstation, because it collects
+information about the host. It reports on the operating system, disks, network, and the
+kURL cluster services, and contains no application logs. On Helm chart installations, use
+the command from the previous section instead.
 
 Alternatively, you can also download the YAML file first and run `kubectl support-bundle PATH/FILE.yaml`.
 
